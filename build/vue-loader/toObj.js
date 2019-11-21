@@ -12,10 +12,7 @@ function htmlParse (dom) {
   } else if (dom.nodeName && dom.nodeName === '#text') {
     item.type = 'text'
     item.nodeName = '#text'
-    // "第{{index}}项：{{item}}山"
-    // "第"+index+"项："+item+"山"
-    item.text = dom.value.replace(/\{\{([^\{\}]*)\}\}/g, '"+$1+"')
-    // console.log(item.text)
+    item.text = dom.value
   }
   if (dom.childNodes && dom.childNodes.length) {
     item.children = []

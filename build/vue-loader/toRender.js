@@ -1,18 +1,3 @@
-function c (obj) {
-  let string = `_c(${JSON.stringify(obj.tagName)}, ${JSON.stringify(obj.options)}, [${list(obj.children)}])`
-  if (obj.options['v-for']) {
-    string = `_l(${obj.options['v-for'].listName}, function ${obj.options['v-for'].itemName} {return ${string}})`
-  }
-  return string
-}
-
-function t (obj) {
-  return `_t(${JSON.stringify(obj.text)})`
-}
-
-function l (obj) {
-  return `_l(${obj.listName}, function (item, index) {return ${list()}})`
-}
 
 function list (arr = []) {
   let string = ''
@@ -30,9 +15,27 @@ function toRender (obj) {
   console.log(obj)
   let string = ''
   if (obj.type === 'node') {
-    string += `function render () {return ${c(obj)}};\nrender();`
+    string += `window.render = function render () {return ${c(obj)}};`
   }
   return string
 }
+
+function c (obj) {
+  let string = `_c(${JSON.stringify(obj.tagName)}, ${JSON.stringify(obj.options)}, [${list(obj.children)}])`
+  if (obj.options['v-for']) {
+    string = `_l(${obj.options['v-for'].listName}, function ${obj.options['v-for'].itemName} {return ${string}})`
+  }
+  return string
+}
+
+function t (obj) {
+  return `_t(${JSON.stringify(obj.text)})`
+}
+
+function l (obj) {
+  return `_l(${obj.listName}, function (item, index) {return ${list()}})`
+}
+
+// toRender.call(window)
 
 module.exports = toRender

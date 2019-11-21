@@ -13,8 +13,8 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    // index: './src/project/main.js'
-    app: './src/demo/main.js'
+    index: './src/project/main.js'
+    // app: './src/demo/main.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -33,8 +33,8 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        // loader: resolve('build/vue-loader/index.js'),
+        // loader: 'vue-loader',
+        loader: resolve('build/vue-loader/index.js'),
         options: vueLoaderConfig
       },
       {

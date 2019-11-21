@@ -22,6 +22,8 @@ export const _c = (tagname, options = {}, children = []) => {
       }
     } else if (k === 'staticClass') {
       el.setAttribute('class', options[k])
+    } else if (k === 'v-for') {
+      // el.appendChild(_t('-----------------'))
     } else {
       // console.log(k, options[k])
     }
