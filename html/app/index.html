@@ -7,24 +7,27 @@
   </head>
   <body>
     <div id="app"></div>
+
     <script type="text/x-template" id="ise-ul">
       <ul class="ul">
-        <li v-for="(item, index) in list" :key="index">
+        <li class="li" v-for="(item, index) in list" :key="index">
           <div class="item">我是第{{index}}项纪录：{{item}}</div>
         </li>
       </ul>
     </script>
+
     <script type="text/x-template" id="ise-area">
-      <textarea v-model="text"></textarea>
+      <textarea v-model="text" class="textarea" placeholder="请输入"></textarea>
     </script>
+
     <script type="text/x-template" id="root">
       <div id="app">
         <ise-ul-component></ise-ul-component>
         <ise-area-component></ise-area-component>
       </div>
     </script>
+
     <script src="../dist/vue.js"></script>
-    <!-- <script src="../lib/vue-router.js"></script> -->
-    <!-- <script src="./app.js"></script> -->
+    <script src="./app.js"></script>
   </body>
 </html>

@@ -40,6 +40,10 @@ Vue.component('ise-area-component', {
   }
 })
 
-new Vue({
+// console.log(Vue.components)
+
+const app = new Vue({
   template: '<root-component></root-component>',
 }).$mount('app')
+
+window.lixin = app
