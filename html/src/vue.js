@@ -25,11 +25,11 @@ class Vue {
   render () {
     let obj = parseDomToObject(this.template)
     let dom = objectToRender(obj)
-    console.log(dom)
+    // console.log(dom)
     return dom
   }
 
-  static components = []
+  static components = {}
 
   static component (componentName, options) {
     let template = null
@@ -39,11 +39,7 @@ class Vue {
     } else {
       template = options.template
     }
-
-    this.components.push({
-      componentName,
-      obj: new Vue({ ...options, template })
-    })
+    this.components[componentName] = { ...options, template }
   }
 }
 

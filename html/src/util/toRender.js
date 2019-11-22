@@ -1,5 +1,3 @@
-// import util from './util'
-// import attrs from './attrs'
 
 // 创建文本节点
 const _t = (obj) => {
@@ -19,23 +17,28 @@ const _c = (obj) => {
   let tagName = obj.tagName
   let options = obj.options || {}
   let children = obj.children || []
-
-  let el = document.createElement(tagName)
-  for (let k in options) { // staticClass, attrs
-    if (k === 'attrs') {
-      for (let j in options.attrs) {
-        el.setAttribute(j, options.attrs[j])
+  // console.log(tagName, Vue.components, Vue.components[tagName])
+  if (Vue.components[tagName]) {
+    return new Vue(Vue.components[tagName]).$el
+  } else {
+    let el = document.createElement(tagName)
+    for (let k in options) { // staticClass, attrs
+      if (k === 'attrs') {
+        for (let j in options.attrs) {
+          el.setAttribute(j, options.attrs[j])
+        }
+      } else if (k === 'staticClass') {
+        el.setAttribute('class', options[k])
+      } else if (k === 'v-for') {
+        console.log(obj)
+      } else {
       }
-    } else if (k === 'staticClass') {
-      el.setAttribute('class', options[k])
-    } else if (k === 'v-for') {
-    } else {
     }
+    for (let i = 0; i < children.length; i++) {
+      el.appendChild(_o(children[i]))
+    }
+    return el
   }
-  for (let i = 0; i < children.length; i++) {
-    el.appendChild(_o(children[i]))
-  }
-  return el
 }
 
 function toRender (obj) {

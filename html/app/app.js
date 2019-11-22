@@ -29,13 +29,13 @@ Vue.component('ise-area-component', {
 	template: '#ise-area',
 	data: function () {
 		return {
-      text: ''
+      text: '我是李鑫'
 		}
   },
   mounted () {
     var _this = this
     setTimeout(function () {
-      _this.text = '类似的会计分录可视对讲力口'
+      _this.text = '我是李欣欣'
     }, 2000)
   }
 })
