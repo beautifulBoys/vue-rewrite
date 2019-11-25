@@ -14,7 +14,8 @@ class Vue {
     this.mounted = mounted
     this.beforeDestroy = beforeDestroy
     this.destroyed = destroyed
-    this.$el = this.render()
+    this.$render = this.toRender()
+    this._init()
   }
 
   $mount (name) {
@@ -22,17 +23,20 @@ class Vue {
     oldNode.parentNode.replaceChild(this.$el, oldNode)
   }
 
-  render () {
+  _init () {
+    this.$render()
+  }
+ 
+  toRender () {
     let obj = parseDomToObject(this.$template)
-    let dom = objectToRender(obj)
-    return dom
+    return objectToRender(obj)
   }
 
   static components = {}
 
   static component (componentName, options) {
     let template = null
-    if (options.template.charAt(0) = '#') {
+    if (options.template.charAt(0) === '#') {
       template = document.getElementById(options.template.substr(1)).innerText
       template = minifyHtml(template)
     } else {

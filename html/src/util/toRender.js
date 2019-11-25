@@ -60,9 +60,11 @@ const _c = ({tagName, options = {}, childrens = []}) => {
 
 function toRender (obj) {
   if (obj && obj.childrens && obj.childrens[0]) {
-    return _o(obj.childrens[0])
+    return function () {
+      return _o(obj.childrens[0])
+    }
   } else {
-    return
+    return function () {}
   }
 }
 export default toRender
