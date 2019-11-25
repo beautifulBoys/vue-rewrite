@@ -32,8 +32,8 @@ class Vue {
 
   static component (componentName, options) {
     let template = null
-    if (options.template.indexOf('#') > -1) {
-      template = document.getElementById(options.template.replace('#', '')).innerText
+    if (options.template.charAt(0) = '#') {
+      template = document.getElementById(options.template.substr(1)).innerText
       template = minifyHtml(template)
     } else {
       template = minifyHtml(options.template)
