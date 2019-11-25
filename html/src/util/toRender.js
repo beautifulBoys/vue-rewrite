@@ -1,69 +1,66 @@
 
 // 创建文本节点
-const _t = (obj) => {
-  return document.createTextNode(obj.text)
+const _t = (text) => {
+  return document.createTextNode(text)
 }
 // 创建循环节点
-const _l = (obj) => {
-  console.log(obj)
+const _l = (list = [], fn) => {
   let arr = []
-  JSON.parse(obj.options['v-for'].list).forEach(item => {
-    arr.push(_c(obj))
+  list.forEach((item, index) => {
+    arr.push(fn(item, index))
   })
-  return _c(obj)
+  return arr
 }
 // 创建节点
 const _o = (obj) => {
-  if (obj.type === 'node') {
+  if (obj.type === 'component') {
+    if (Vue.components[obj.tagName]) {
+      return new Vue(Vue.components[obj.tagName]).$el
+    } else {
+      return _c(obj)
+    }
+  } else if (obj.type === 'node') {
     if (obj.options['v-for']) {
-      return _l(obj)
+      return _l(obj.options['v-for'].list, function (item, index) {
+        return _c(obj)
+      })
     } else {
       return _c(obj)
     }
   } else if (obj.type === 'text') {
-    return _t(obj)
+    return _t(obj.text)
   }
 }
 
 // 创建节点
-const _c = (obj) => {
-  let tagName = obj.tagName
-  let options = obj.options || {}
-  let children = obj.children || []
-  // console.log(tagName, Vue.components, Vue.components[tagName])
-  if (Vue.components[tagName]) {
-    return new Vue(Vue.components[tagName]).$el
-  } else {
-    let el = document.createElement(tagName)
-    for (let k in options) { // staticClass, attrs
-      if (k === 'attrs') {
-        for (let j in options.attrs) {
-          el.setAttribute(j, options.attrs[j])
-        }
-      } else if (k === 'staticClass') {
-        el.setAttribute('class', options[k])
-      } else if (k === 'v-for') {
-        // console.log(obj)
-      } else {
+const _c = ({tagName, options = {}, childrens = []}) => {
+  let el = document.createElement(tagName)
+  for (let k in options) { // staticClass, attrs
+    if (k === 'attrs') {
+      for (let j in options.attrs) {
+        el.setAttribute(j, options.attrs[j])
       }
+    } else if (k === 'staticClass') {
+      el.setAttribute('class', options[k])
+    } else {
     }
-    for (let i = 0; i < children.length; i++) {
-      let result = _o(children[i])
-      if (Array.isArray(result)) {
-        result.forEach(item => {
-          el.appendChild(item)
-        })
-      } else {
-        result && el.appendChild(result)
-      }
-    }
-    return [el]
   }
+  for (let i = 0; i < childrens.length; i++) {
+    let result = _o(childrens[i])
+    if (Array.isArray(result)) { // v-for
+      result.forEach(elitem => {
+        el.appendChild(elitem)
+      })
+    } else {
+      el.appendChild(result)
+    }
+  }
+  return el
 }
 
 function toRender (obj) {
-  if (obj && obj.children && obj.children[0]) {
-    return _o(obj.children[0])
+  if (obj && obj.childrens && obj.childrens[0]) {
+    return _o(obj.childrens[0])
   } else {
     return
   }

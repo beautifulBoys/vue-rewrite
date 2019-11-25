@@ -40,14 +40,17 @@ const getVForOptions = text => {
   return options
 }
 
+// 压缩 html 代码
 minifyHtml = str => {
   str = str
   .replace(/[\f\n\r\t\v]/ig, '')
   .replace(/[ ]+/ig, ' ')
   .replace(/>[ ]+</ig, '><')
   .replace(/>[ ]+(.*)[ ]+</ig, '>$1<')
+  str = trim(str)
   return str
 }
+
 exports.trim = trim
 exports.splitKeyAndValue = splitKeyAndValue
 exports.getVForOptions = getVForOptions

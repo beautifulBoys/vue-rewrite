@@ -6,18 +6,27 @@ const {parseAttrs} = require('./attrs')
 function htmlParse (dom) {
   let item = {}
   if (dom.tagName) {
-    item.type = 'node'
-    item.tagName = dom.tagName
-    item.options = parseAttrs(dom.attrs)
+    // item.type = 'node'
+    // item.tagName = dom.tagName
+    // item.options = parseAttrs(dom.attrs)
+    if (Vue.components[dom.tagName]) {
+      item.type = 'component'
+      item.tagName = dom.tagName
+      item.options = parseAttrs(dom.attrs)
+    } else {
+      item.type = 'node'
+      item.tagName = dom.tagName
+      item.options = parseAttrs(dom.attrs)
+    }
   } else if (dom.nodeName && dom.nodeName === '#text') {
     item.type = 'text'
     item.nodeName = '#text'
     item.text = dom.value
   }
   if (dom.childNodes && dom.childNodes.length) {
-    item.children = []
+    item.childrens = []
     for (let i = 0; i < dom.childNodes.length; i++) {
-      item.children.push(htmlParse(dom.childNodes[i]))
+      item.childrens.push(htmlParse(dom.childNodes[i]))
     }
   }
   return item

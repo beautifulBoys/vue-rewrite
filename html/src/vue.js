@@ -1,10 +1,10 @@
 import parseDomToObject from './util/toObj'
 import objectToRender from './util/toRender'
-import {trim, minifyHtml} from './util/util'
+import {minifyHtml} from './util/util'
 
 class Vue {
   constructor ({template, data, methods, beforeCreate, created, beforeMount, mounted, beforeDestroy, destroyed}) {
-    this.template = minifyHtml(template)
+    this.$template = template
     this.data = data
     this.methods = methods
     // 生命周期
@@ -19,13 +19,12 @@ class Vue {
 
   $mount (name) {
     let oldNode = document.getElementById(name)
-    oldNode.parentNode.replaceChild(this.$el[0], oldNode)
+    oldNode.parentNode.replaceChild(this.$el, oldNode)
   }
 
   render () {
-    let obj = parseDomToObject(this.template)
+    let obj = parseDomToObject(this.$template)
     let dom = objectToRender(obj)
-    console.log(obj)
     return dom
   }
 
@@ -35,9 +34,9 @@ class Vue {
     let template = null
     if (options.template.indexOf('#') > -1) {
       template = document.getElementById(options.template.replace('#', '')).innerText
-      template = trim(template)
+      template = minifyHtml(template)
     } else {
-      template = options.template
+      template = minifyHtml(options.template)
     }
     this.components[componentName] = { ...options, template }
   }
