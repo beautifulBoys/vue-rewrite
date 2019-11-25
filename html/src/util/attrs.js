@@ -1,4 +1,4 @@
-const {trim, splitKeyAndValue} = require('./util')
+const {trim, splitKeyAndValue, getVForOptions} = require('./util')
 
 exports.parseAttrs = (attrs) => {
   let options = {
@@ -11,11 +11,13 @@ exports.parseAttrs = (attrs) => {
     } else if (attrs[i].name === 'v-model') {
       options[attrs[i].name] = attrs[i].value
     } else if (attrs[i].name === 'v-for') {
-      let list = attrs[i].value.split(' in ')
+      let info = getVForOptions(attrs[i].value)
       options[attrs[i].name] = {
-        itemName: list[0] ? splitKeyAndValue(list[0]) : '(item, index)',
-        methods: 'in',
-        listName: list[1] || ''
+        item: info.item,
+        key: '',
+        index: info.index,
+        methods: info.methods,
+        list: info.list
       }
     } else if (attrs[i].name.substring(0, 1) === ':') {
       options[attrs[i].name] = attrs[i].value

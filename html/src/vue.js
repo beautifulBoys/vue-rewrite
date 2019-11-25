@@ -1,10 +1,10 @@
 import parseDomToObject from './util/toObj'
 import objectToRender from './util/toRender'
-import {trim} from './util/util'
+import {trim, minifyHtml} from './util/util'
 
 class Vue {
   constructor ({template, data, methods, beforeCreate, created, beforeMount, mounted, beforeDestroy, destroyed}) {
-    this.template = template
+    this.template = minifyHtml(template)
     this.data = data
     this.methods = methods
     // 生命周期
@@ -19,13 +19,13 @@ class Vue {
 
   $mount (name) {
     let oldNode = document.getElementById(name)
-    oldNode.parentNode.replaceChild(this.$el, oldNode)
+    oldNode.parentNode.replaceChild(this.$el[0], oldNode)
   }
 
   render () {
     let obj = parseDomToObject(this.template)
     let dom = objectToRender(obj)
-    // console.log(dom)
+    console.log(obj)
     return dom
   }
 

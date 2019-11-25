@@ -1,6 +1,6 @@
 // 去除两端空格、换行、回车
 const trim = str => {
-  return str.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '')
+  return str.replace(/^[\s\r\n\t]+/, '').replace(/[\s\r\n\t]+$/, '')
 }
 
 // 解析类似（item, index） 这种
@@ -17,5 +17,38 @@ const splitKeyAndValue = str => {
   }
 }
 
+// 解析 v-for 参数
+const getVForOptions = text => {
+  // text = '(item, index) in list'
+  let options = {
+    item: 'item',
+    index: 'index',
+    methods: 'in',
+    list: 'list'
+  }
+  let arr = trim(text).split(' in ')
+  // options.methods = 'arr[1]'
+  options.list = arr[1]
+  let str = arr[0].replace(/[\s()]+/g, '')
+  if (str.indexOf(',') > -1) {
+    let list = str.split(',')
+    options.item = list[0]
+    options.index = list[1]
+  } else {
+    options.item = list[0]
+  }
+  return options
+}
+
+minifyHtml = str => {
+  str = str
+  .replace(/[\f\n\r\t\v]/ig, '')
+  .replace(/[ ]+/ig, ' ')
+  .replace(/>[ ]+</ig, '><')
+  .replace(/>[ ]+(.*)[ ]+</ig, '>$1<')
+  return str
+}
 exports.trim = trim
 exports.splitKeyAndValue = splitKeyAndValue
+exports.getVForOptions = getVForOptions
+exports.minifyHtml = minifyHtml

@@ -3,10 +3,23 @@
 const _t = (obj) => {
   return document.createTextNode(obj.text)
 }
-
+// 创建循环节点
+const _l = (obj) => {
+  console.log(obj)
+  let arr = []
+  JSON.parse(obj.options['v-for'].list).forEach(item => {
+    arr.push(_c(obj))
+  })
+  return _c(obj)
+}
+// 创建节点
 const _o = (obj) => {
   if (obj.type === 'node') {
-    return _c(obj)
+    if (obj.options['v-for']) {
+      return _l(obj)
+    } else {
+      return _c(obj)
+    }
   } else if (obj.type === 'text') {
     return _t(obj)
   }
@@ -30,14 +43,21 @@ const _c = (obj) => {
       } else if (k === 'staticClass') {
         el.setAttribute('class', options[k])
       } else if (k === 'v-for') {
-        console.log(obj)
+        // console.log(obj)
       } else {
       }
     }
     for (let i = 0; i < children.length; i++) {
-      el.appendChild(_o(children[i]))
+      let result = _o(children[i])
+      if (Array.isArray(result)) {
+        result.forEach(item => {
+          el.appendChild(item)
+        })
+      } else {
+        result && el.appendChild(result)
+      }
     }
-    return el
+    return [el]
   }
 }
 
