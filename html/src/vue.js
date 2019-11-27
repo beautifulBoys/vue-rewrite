@@ -1,11 +1,35 @@
 import parseDomToObject from './util/toObj'
-import objectToRender from './util/toRender'
+import {toRender} from './util/toRender'
+import {_l, _t, _c} from './vue-util'
 import {minifyHtml} from './util/util'
-
+function proxy (vm, key) {
+    Object.defineProperty(vm, key, {
+      configurable: true,
+      enumerable: true,
+      get: function proxyGetter () {
+        return vm._data[key]
+      },
+      set: function proxySetter (val) {
+        vm._data[key] = val
+      }
+    })
+}
 class Vue {
-  constructor ({template, data, methods, beforeCreate, created, beforeMount, mounted, beforeDestroy, destroyed}) {
-    this.$template = template
-    this.data = data
+  constructor ({
+    template = '',
+    data,
+    methods = {},
+    beforeCreate,
+    created,
+    beforeMount,
+    mounted,
+    beforeDestroy,
+    destroyed,
+    parent,
+    childrens
+  }) {
+    this.template = template
+    this._data = data ? data.call(this) : {}
     this.methods = methods
     // 生命周期
     this.beforeCreate = beforeCreate
@@ -14,24 +38,43 @@ class Vue {
     this.mounted = mounted
     this.beforeDestroy = beforeDestroy
     this.destroyed = destroyed
-    this.$render = this.toRender()
-    this._init()
+    this.parent = parent
+    this.childrens = childrens
+    this._render = this.query(this.template)
+    this.initData()
+  }
+
+  initData () {
+    for (let k in this._data) {
+      proxy(this, k)
+    }
   }
 
   $mount (name) {
-    let oldNode = document.getElementById(name)
-    oldNode.parentNode.replaceChild(this.$el, oldNode)
+    this.$render = new Function('vm', `with(vm){console.log(vm);return ${this._render}}`)
+    this.$el = this.$render(this)
+    let mount = document.getElementById(name)
+    mount.parentNode.replaceChild(this.$el, mount)
   }
 
-  _init () {
-    this.$render()
-  }
- 
-  toRender () {
-    let obj = parseDomToObject(this.$template)
-    return objectToRender(obj)
+  lifeCycle () {
+    this.beforeCreate()
+    this.created()
+    this.beforeMount()
+    this.mounted()
+    this.beforeDestroy()
+    this.destroyed()
   }
 
+  query (template) {
+    let obj = parseDomToObject(template)
+    return toRender(obj)
+  }
+
+  _l = _l
+  _c = _c
+  _t = _t
+  
   static components = {}
 
   static component (componentName, options) {
@@ -42,7 +85,11 @@ class Vue {
     } else {
       template = minifyHtml(options.template)
     }
-    this.components[componentName] = { ...options, template }
+
+    this.components[componentName] = {
+      ...options,
+      template
+    }
   }
 }
 

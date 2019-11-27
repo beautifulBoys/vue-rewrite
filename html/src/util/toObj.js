@@ -3,30 +3,27 @@ const parse5 = require('parse5')
 const {parseAttrs} = require('./attrs')
 
 // 把节点对象拆分为目标对象
-function htmlParse (dom) {
+function htmlParse (obj) {
   let item = {}
-  if (dom.tagName) {
-    // item.type = 'node'
-    // item.tagName = dom.tagName
-    // item.options = parseAttrs(dom.attrs)
-    if (Vue.components[dom.tagName]) {
+  if (obj.tagName) {
+    if (Vue.components[obj.tagName]) {
       item.type = 'component'
-      item.tagName = dom.tagName
-      item.options = parseAttrs(dom.attrs)
+      item.tagName = obj.tagName
+      item.options = parseAttrs(obj.attrs)
     } else {
       item.type = 'node'
-      item.tagName = dom.tagName
-      item.options = parseAttrs(dom.attrs)
+      item.tagName = obj.tagName
+      item.options = parseAttrs(obj.attrs)
     }
-  } else if (dom.nodeName && dom.nodeName === '#text') {
+  } else if (obj.nodeName && obj.nodeName === '#text') {
     item.type = 'text'
     item.nodeName = '#text'
-    item.text = dom.value
+    item.text = obj.value
   }
-  if (dom.childNodes && dom.childNodes.length) {
+  if (obj.childNodes && obj.childNodes.length) {
     item.childrens = []
-    for (let i = 0; i < dom.childNodes.length; i++) {
-      item.childrens.push(htmlParse(dom.childNodes[i]))
+    for (let i = 0; i < obj.childNodes.length; i++) {
+      item.childrens.push(htmlParse(obj.childNodes[i]))
     }
   }
   return item

@@ -21,7 +21,7 @@ Vue.component('ise-ul-component', {
 		}
   },
   mounted () {
-    console.log('初始化成功')
+    console.log('vue-component: ', this)
   }
 })
 
@@ -44,7 +44,8 @@ Vue.component('ise-area-component', {
 //   routes: []
 // })
 
-new Vue({
+let vue = new Vue({
   template: '<root-component></root-component>',
   // router: router
 }).$mount("#app")
+console.log('vue:', vue)

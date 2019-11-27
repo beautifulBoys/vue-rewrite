@@ -17,7 +17,7 @@ exports.parseAttrs = (attrs) => {
         key: '',
         index: info.index,
         methods: info.methods,
-        list: JSON.parse(info.list)
+        list: info.list
       }
     } else if (attrs[i].name.substring(0, 1) === ':') {
       options[attrs[i].name] = attrs[i].value

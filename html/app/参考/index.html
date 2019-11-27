@@ -10,10 +10,10 @@
 
     <script type="text/x-template" id="ise-ul">
       <ul class="ul">
-        <li class="li" v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7]" :key="index">
-          <div class="item">我是第{{index}}项纪录：{{item}}</div>
+        <li class="li" v-for="(item, index) in list" :key="index">
+          <div class="item">我是第{{index + 1}}项纪录：学号{{item}}</div>
         </li>
-        <li :class="[{list: 12}]">我是单独的</li>
+        <li :class="[{list: 12}]">我的祖国是{{list}}</li>
       </ul>
     </script>
 

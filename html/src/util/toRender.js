@@ -1,70 +1,46 @@
+// import bindFunc from './bind.js'
 
-// 创建文本节点
-const _t = (text) => {
-  return document.createTextNode(text)
+export const c = function c ({tagName, options = {}, childrens = []}) {
+  return `_c(${JSON.stringify(tagName)}, ${JSON.stringify(options)}, [${children(childrens)}])`
 }
-// 创建循环节点
-const _l = (list = [], fn) => {
-  let arr = []
-  list.forEach((item, index) => {
-    arr.push(fn(item, index))
-  })
-  return arr
+
+export const t = function t (text) {
+  let str = JSON.stringify(text).replace(/\{\{([^\{\}]*)\}\}/ig, '" + ($1) + "')
+  return `_t(${str})`
 }
-// 创建节点
-const _o = (obj) => {
-  if (obj.type === 'component') {
-    if (Vue.components[obj.tagName]) {
-      return new Vue(Vue.components[obj.tagName]).$el
-    } else {
-      return _c(obj)
-    }
-  } else if (obj.type === 'node') {
+
+export const o = function o (obj) {
+  if (obj.type === 'node') {
     if (obj.options['v-for']) {
-      return _l(obj.options['v-for'].list, function (item, index) {
-        return _c(obj)
-      })
+      return l(obj)
     } else {
-      return _c(obj)
+      return c(obj)
     }
   } else if (obj.type === 'text') {
-    return _t(obj.text)
+    return t(obj.text)
+  } else if (obj.type === 'component') {
+    let component = new Vue(Vue.components[obj.tagName])
+    return component._render
   }
 }
 
-// 创建节点
-const _c = ({tagName, options = {}, childrens = []}) => {
-  let el = document.createElement(tagName)
-  for (let k in options) { // staticClass, attrs
-    if (k === 'attrs') {
-      for (let j in options.attrs) {
-        el.setAttribute(j, options.attrs[j])
-      }
-    } else if (k === 'staticClass') {
-      el.setAttribute('class', options[k])
-    } else {
-    }
-  }
-  for (let i = 0; i < childrens.length; i++) {
-    let result = _o(childrens[i])
-    if (Array.isArray(result)) { // v-for
-      result.forEach(elitem => {
-        el.appendChild(elitem)
-      })
-    } else {
-      el.appendChild(result)
-    }
-  }
-  return el
+export const l = function l (obj) {
+  let vFor = obj.options['v-for']
+  return `_l(${vFor.list}, function (${vFor.item}, ${vFor.index}) {return ${c(obj)}})`
 }
 
-function toRender (obj) {
-  if (obj && obj.childrens && obj.childrens[0]) {
-    return function () {
-      return _o(obj.childrens[0])
-    }
+export const children = function children (childrens) {
+  let string = ''
+  childrens.forEach(obj => {
+    string += o(obj) + ','
+  })
+  return string.substr(0, string.length - 1)
+}
+
+export const toRender = function toRender (obj) {
+  if (obj && obj.childrens && obj.childrens.length) {
+    return o(obj.childrens[0])
   } else {
-    return function () {}
+    return
   }
 }
-export default toRender
