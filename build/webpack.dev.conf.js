@@ -14,6 +14,9 @@ const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
+  entry: {
+    main: path.resolve(__dirname, '../src/main.js')
+  },
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
   },
