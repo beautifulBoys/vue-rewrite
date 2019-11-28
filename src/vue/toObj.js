@@ -1,4 +1,3 @@
-
 const parse5 = require('parse5')
 const {parseAttrs} = require('./attrs')
 
@@ -31,8 +30,8 @@ function htmlParse (obj) {
 
 // 把 dom 对象格式化为符合要求的 object
 const parseDomToObject = (source) => {
-  let dom = parse5.parseFragment(source)
-  return htmlParse(dom)
+  let obj = parse5.parseFragment(source)
+  return htmlParse(obj)
 }
 
 export default parseDomToObject

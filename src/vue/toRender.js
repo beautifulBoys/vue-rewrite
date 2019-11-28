@@ -1,5 +1,4 @@
-// import bindFunc from './bind.js'
-
+import VueComponent from '../vue-component'
 function c ({tagName, options = {}, childrens = []}) {
   return `_c(${JSON.stringify(tagName)}, ${JSON.stringify(options)}, [${children(childrens)}])`
 }
@@ -19,8 +18,9 @@ function o (obj) {
   } else if (obj.type === 'text') {
     return t(obj.text)
   } else if (obj.type === 'component') {
-    let component = new Vue(Vue.components[obj.tagName])
-    return component._render
+    return c(obj)
+  } else {
+    console.log('其他类型，请检查')
   }
 }
 
@@ -37,10 +37,11 @@ function children (childrens) {
   return string.substr(0, string.length - 1)
 }
 
-export default function toRender (obj) {
-  if (obj && obj.childrens && obj.childrens.length) {
-    return o(obj.childrens[0])
-  } else {
-    return
-  }
+function toRender (obj) {
+  return o(obj.childrens[0])
 }
+
+export default toRender
+
+
+

@@ -1,3 +1,4 @@
+import VueComponent from '../vue-component'
 // 创建列表
 export const _l = (list, fn) => {
   let arr = []
@@ -13,8 +14,10 @@ export const _t = (text) => {
 }
 
 // 创建节点
-export const _c = (tagname, options = {}, children = []) => {
-  let el = document.createElement(tagname)
+export const _c = (tagName, options = {}, children = []) => {
+  let _this = this
+  let el = null
+  el = document.createElement(tagName)
   for (let k in options) { // staticClass, attrs
     if (k === 'attrs') {
       for (let j in options.attrs) {
@@ -23,9 +26,7 @@ export const _c = (tagname, options = {}, children = []) => {
     } else if (k === 'staticClass') {
       el.setAttribute('class', options[k])
     } else if (k === 'v-for') {
-      // el.appendChild(_t('-----------------'))
     } else {
-      // console.log(k, options[k])
     }
   }
   for (let i = 0; i < children.length; i++) {
@@ -37,6 +38,11 @@ export const _c = (tagname, options = {}, children = []) => {
       el.appendChild(children[i])
     }
   }
+  if (Vue.components[tagName]) {
+    el = new VueComponent({
+      ...Vue.components[tagName],
+      parent: _this
+    }).$el
+  }
   return el
 }
-

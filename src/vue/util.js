@@ -1,10 +1,10 @@
 // 去除两端空格、换行、回车
-const trim = str => {
+export const trim = str => {
   return str.replace(/^[\s\r\n\t]+/, '').replace(/[\s\r\n\t]+$/, '')
 }
 
 // 解析类似（item, index） 这种
-const splitKeyAndValue = str => {
+export const splitKeyAndValue = str => {
   str = trim(str)
   if (str.indexOf('(') > -1 && str.indexOf(')') > -1) {
     // 存在括号
@@ -18,7 +18,7 @@ const splitKeyAndValue = str => {
 }
 
 // 解析 v-for 参数
-const getVForOptions = text => {
+export const getVForOptions = text => {
   // text = '(item, index) in list'
   let options = {
     item: 'item',
@@ -41,7 +41,7 @@ const getVForOptions = text => {
 }
 
 // 压缩 html 代码
-minifyHtml = str => {
+export const minifyHtml = str => {
   str = str
   .replace(/[\f\n\r\t\v]/ig, '')
   .replace(/[ ]+/ig, ' ')
@@ -51,7 +51,3 @@ minifyHtml = str => {
   return str
 }
 
-exports.trim = trim
-exports.splitKeyAndValue = splitKeyAndValue
-exports.getVForOptions = getVForOptions
-exports.minifyHtml = minifyHtml
