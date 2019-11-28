@@ -1,5 +1,5 @@
 {
-  "name": "a",
+  "name": "vuetest",
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "lixin_boy <1298947916@qq.com>",
@@ -10,10 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "less": "^3.9.0",
-    "less-loader": "^4.1.0",
-    "parse5": "^5.1.0",
-    "vue": "^2.5.2"
+    "parse5": "^5.1.1",
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

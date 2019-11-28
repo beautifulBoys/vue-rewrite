@@ -10,15 +10,15 @@
 
     <script type="text/x-template" id="ise-ul">
       <ul class="ul">
-        <li class="li" v-for="(lixin, wangming) in list" :key="index">
-          <div class="item">我是第{{wangming + 1 + wangming}}项纪录：{{lixin}}</div>
+        <li class="li" v-for="(item, index) in list" :key="index">
+          <div class="item">我是第{{index + 1}}项纪录：{{item}}</div>
         </li>
-        <li :class="[{list: 12}]">我的祖国是：{{list}}</li>
+        <li :class="[{list: 12}]">我的祖国是：{{country}}</li>
       </ul>
     </script>
 
     <script type="text/x-template" id="ise-area">
-      <textarea v-model="text" class="textarea" placeholder="请输入"></textarea>
+      <textarea v-model="text" class="textarea" placeholder="请输入">{{text}}</textarea>
     </script>
 
     <script type="text/x-template" id="root">
@@ -29,6 +29,7 @@
     </script>
 
     <script src="../dist/vue.js"></script>
+    <script src="../dist/vueComponent.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

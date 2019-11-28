@@ -11,7 +11,9 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    vue: resolve('src/vue.js')
+    main: resolve('src/main.js'),
+    vue: resolve('src/vue.js'),
+    vueComponent: resolve('src/vue-component.js')
   },
   output: {
     path: resolve('dist'),

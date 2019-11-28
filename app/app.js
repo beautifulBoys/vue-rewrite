@@ -1,4 +1,4 @@
-
+console.time('vue')
 Vue.component('root-component', {
 	template: '#root'
 })
@@ -17,11 +17,11 @@ Vue.component('ise-ul-component', {
         '解放军第七军',
         '解放军第八军',
         '解放军第九军'
-      ]
+      ],
+      country: '中国'
 		}
   },
   mounted () {
-    console.log('初始化成功')
   }
 })
 
@@ -36,14 +36,14 @@ Vue.component('ise-area-component', {
     var _this = this
     setTimeout(function () {
       _this.text = '我是李欣欣'
+      console.log(_this.$parent.$el)
     }, 2000)
   }
 })
-
-// console.log(Vue.components)
 
 const app = new Vue({
   template: '<root-component></root-component>',
 }).$mount('app')
 
 window.lixin = app
+console.timeEnd('vue')
