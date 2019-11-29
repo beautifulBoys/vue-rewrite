@@ -1,13 +1,13 @@
 
-export const proxyData = (vm, key) => {
+export const proxyData = (vm, key, type) => {
   Object.defineProperty(vm, key, {
     configurable: true,
     enumerable: true,
     get () {
-      return vm._data[key]
+      return vm['_' + type][key]
     },
     set (val) {
-      vm._data[key] = val
+      vm['_' + type][key] = val
     }
   })
 }

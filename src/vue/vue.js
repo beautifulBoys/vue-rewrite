@@ -1,6 +1,6 @@
 import VueComponent from './vue-component'
-import query from './vue/query'
-import { proxyData } from './vue/common'
+import query from './query'
+import { proxyData } from './common'
 
 export default class Vue {
   $el = null
@@ -28,14 +28,15 @@ export default class Vue {
   initData (data) {
     this._data = data()
     Object.keys(this._data).forEach(key => {
-      proxyData(this, key)
+      proxyData(this, key, 'data')
     })
   }
 
   initMethods (methods) {
-    for (let k in methods) {
-      this[k] = methods[k]
-    }
+    this._methods = methods
+    Object.keys(this._methods).forEach(key => {
+      proxyData(this, key, 'methods')
+    })
   }
 
   createRenderFunction () {

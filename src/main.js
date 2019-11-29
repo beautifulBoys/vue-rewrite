@@ -1,4 +1,4 @@
-import './vue'
+import './vue/vue'
 // import query from './vue/query.js'
 
 Vue.component('com-li', {
@@ -32,7 +32,6 @@ Vue.component('com-div', {
   <div class="item">我是第李鑫</div>
 `,
   mounted () {
-    console.log(this)
   }
 })
 
@@ -48,7 +47,7 @@ Vue.component('com-area', {
 />
 `,
   mounted () {
-    console.log(this)
+    // console.log(this)
   },
   data () {
     return {
@@ -85,15 +84,15 @@ new Vue({
     }
   },
   mounted () {
-    // console.log(this)
+    console.log(this)
   },
   methods: {
-    clickEvent (e) {
+    changeEvent (e) {
       console.log(e)
     },
-    changeEvent (e, $el) {
-      console.log(e, $el)
-    } 
+    clickEvent (e) {
+      console.log(e)
+    }
   }
 }).$mount('#app')
 
