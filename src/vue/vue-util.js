@@ -13,19 +13,32 @@ export const _t = (text) => {
   return document.createTextNode(text)
 }
 
-// 创建节点
+// 创建注释节点
+export const _e = (text = '') => {
+  return document.createComment(text)
+}
+
+// 创建元素节点
 export const _c = (tagName, options = {}, children = []) => {
   let _this = this
   let el = null
   el = document.createElement(tagName)
-  for (let k in options) { // staticClass, attrs
+  for (let k in options) {
     if (k === 'attrs') {
       for (let j in options.attrs) {
         el.setAttribute(j, options.attrs[j])
       }
     } else if (k === 'staticClass') {
       el.setAttribute('class', options[k])
-    } else if (k === 'v-for') {
+    } else if (k === 'staticStyle') {
+      el.setAttribute('style', options[k])
+    } else if (k === 'v-if') {
+    } else if (k === 'directives') {
+    } else if (k === 'on') {
+      for (let onKey in options[k]) {
+        let callback = options[k][onKey]
+        el.addEventListener(onKey, callback)
+      }
     } else {
     }
   }

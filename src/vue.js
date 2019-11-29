@@ -1,16 +1,15 @@
-import toObj from './vue/toObj'
-import toRender from './vue/toRender'
+import query from './vue/query'
 import { _c, _l, _t } from './vue/vue-util'
-import { minifyHtml } from './vue/util'
 import { proxyData } from './vue/common'
 
 export default class Vue {
   constructor (options) {
     this.$options = options
-    this.template = minifyHtml(options.template)
+    this.template = options.template
     this.mounted = options.mounted
     this.$el = null
     options.data && this.initData(options.data)
+    options.methods && this.initMethods(options.methods)
   }
 
   $mount (name) {
@@ -18,7 +17,6 @@ export default class Vue {
     let mount = document.getElementById(name.replace('#', ''))
     this.$el = this.$render(this)
     mount.appendChild(this.$el)
-    console.log('Vue', this)
     this._init()
   }
 
@@ -33,9 +31,14 @@ export default class Vue {
     })
   }
 
+  initMethods (methods) {
+    for (let k in methods) {
+      this[k] = methods[k]
+    }
+  }
+
   createRenderFunction () {
-    let obj = toObj(this.template)
-    let _render = toRender(obj)
+    let _render = query(this.template)
     return new Function('vm', `with(vm){return ${_render}}`)
   }
 
@@ -49,9 +52,9 @@ export default class Vue {
     let template = null
     if (options.template.charAt(0) === '#') {
       template = document.getElementById(options.template.substr(1)).innerText
-      template = minifyHtml(template)
+      template = template
     } else {
-      template = minifyHtml(options.template)
+      template = options.template
     }
 
     this.components[componentName] = {
@@ -61,3 +64,4 @@ export default class Vue {
   }
 }
 
+window.Vue = Vue

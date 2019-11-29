@@ -13,7 +13,7 @@
         <li class="li" v-for="(item, index) in list" :key="index">
           <div class="item">我是第{{index + 1}}项纪录：{{item}}</div>
         </li>
-        <li :class="[{list: 12}]">我的祖国是：{{country}}</li>
+        <li :class="[{list: 12}]">我的祖国是：{{country}}-{{innerWidth}}</li>
       </ul>
     </script>
 

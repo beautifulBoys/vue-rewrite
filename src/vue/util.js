@@ -27,7 +27,6 @@ export const getVForOptions = text => {
     list: 'list'
   }
   let arr = trim(text).split(' in ')
-  // options.methods = 'arr[1]'
   options.list = arr[1]
   let str = arr[0].replace(/[\s()]+/g, '')
   if (str.indexOf(',') > -1) {

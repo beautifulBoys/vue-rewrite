@@ -1,6 +1,5 @@
-
-import Vue from './vue'
-window.Vue = Vue
+import './vue'
+// import query from './vue/query.js'
 
 Vue.component('com-li', {
   template: `
@@ -30,8 +29,9 @@ Vue.component('com-li', {
 new Vue({
   template: `
 <div class="app">
-  <input type="text"/>
+  <input type="text" />
   我来自{{from}}
+  <button @click="clickEvent">点击事件</button>
   <ul class="ul">
     <com-li></com-li>
   </ul>
@@ -45,5 +45,22 @@ new Vue({
     setTimeout(() => {
       this.from = '法国'
     }, 4000)
+  },
+  methods: {
+    clickEvent (e) {
+      console.log('input 改变了: ')
+      console.log(e)
+    } 
   }
 }).$mount('#app')
+
+// let str = `
+// <input type="text" class="input" 
+//   :class="['color', {active: true, disable: false}]" 
+//   placeholder="请输入" v-model="name" v-scroll="name"
+//   :style="{background: 'red'}" style="color: blue"
+//   @change="changeEvent()" @click="submit(name, index)" @input="inputEvent"
+//   v-if="choice === 1" 
+// />
+// `
+// console.log(query(str))

@@ -1,6 +1,5 @@
 
-import toObj from './vue/toObj'
-import toRender from './vue/toRender'
+import query from './vue/query'
 import {_c, _l, _t} from './vue/vue-util'
 import { proxyData } from './vue/common'
 
@@ -13,12 +12,12 @@ export default class VueComponent {
     this.$el = null
     this.$render = this.createRenderFunction()
     options.data && this.initData(options.data)
+    options.methods && this.initMethods(options.methods)
     this.$mount()
   }
 
   $mount () {
     this.$el = this.$render(this)
-    console.log('VueComponent', this)
     this._init()
   }
   
@@ -33,9 +32,14 @@ export default class VueComponent {
     })
   }
 
+  initMethods (methods) {
+    for (let k in methods) {
+      this[k] = methods[k]
+    }
+  }
+
   createRenderFunction () {
-    let obj = toObj(this.template)
-    let _render = toRender(obj)
+    let _render = query(this.template)
     return new Function('vm', `with(vm){return ${_render}}`)
   }
 
@@ -44,4 +48,4 @@ export default class VueComponent {
   _t = _t
 
 }
-
+window.VueComponent = VueComponent
