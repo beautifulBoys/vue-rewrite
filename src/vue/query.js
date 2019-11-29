@@ -96,7 +96,7 @@ function query (html) {
   html = minifyHtml(html)
   let obj = toObject(html)
   let fnStr = o(obj.childrens[0])
-  console.log(fnStr)
+  // console.log(fnStr)
   return fnStr
 }
 

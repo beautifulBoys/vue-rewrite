@@ -4,7 +4,7 @@ import './vue'
 Vue.component('com-li', {
   template: `
 <li class="li" v-for="(item, index) in list" :key="index">
-  <div class="item">我是第{{index + 1}}项纪录：{{item}}</div>
+  <com-div></com-div>
 </li>
 `,
   mounted () {
@@ -26,15 +26,58 @@ Vue.component('com-li', {
   }
 })
 
+
+Vue.component('com-div', {
+  template: `
+  <div class="item">我是第李鑫</div>
+`,
+  mounted () {
+    console.log(this)
+  }
+})
+
+
+Vue.component('com-area', {
+  template: `
+<input type="text" class="input" 
+  :class="['color', {active: true, disable: false}]" 
+  placeholder="请输入" v-model="name" v-scroll="name"
+  :style="{background: 'red'}" style="color: blue;outline: none"
+  @change="changeEvent()" @click="submit(name)" @input="inputEvent"
+  v-if="choice === 1" 
+/>
+`,
+  mounted () {
+    console.log(this)
+  },
+  data () {
+    return {
+      name: '我是谁'
+    }
+  },
+  methods: {
+    changeEvent (e) {
+      console.log(e)
+    },
+    submit (e) {
+      console.log(e)
+    },
+    inputEvent (e) {
+      console.log(e)
+    }
+  }
+})
+
 new Vue({
   template: `
-<div class="app">
-  <input type="text" />
+<div id="app">
+  <input type="text" @input="changeEvent"/>
   我来自{{from}}
   <button @click="clickEvent">点击事件</button>
   <ul class="ul">
     <com-li></com-li>
   </ul>
+  <com-area></com-area>
 </div>`,
   data () {
     return {
@@ -42,14 +85,14 @@ new Vue({
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.from = '法国'
-    }, 4000)
+    // console.log(this)
   },
   methods: {
     clickEvent (e) {
-      console.log('input 改变了: ')
       console.log(e)
+    },
+    changeEvent (e, $el) {
+      console.log(e, $el)
     } 
   }
 }).$mount('#app')

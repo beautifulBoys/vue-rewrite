@@ -1,17 +1,4 @@
-const {trim, splitKeyAndValue, minifyHtml, getVForOptions} = require('./util')
-
-function getVFor (attrs) {
-  let info = null
-  let newAttrs = {}
-  for (let k in attrs) {
-    if (k === 'v-for') {
-      info = getVForOptions(attrs[k])
-    } else {
-      newAttrs[k] = attrs[k]
-    }
-  }
-  return {info, attrs: newAttrs}
-}
+const { getVForOptions } = require('./util')
 
 exports.parseAttrs = (attrs) => {
   let options = {
