@@ -1,5 +1,4 @@
 import './vue/vue'
-// import query from './vue/query.js'
 
 Vue.component('com-li', {
   template: `
@@ -8,6 +7,7 @@ Vue.component('com-li', {
 </li>
 `,
   mounted () {
+    // console.log(this)
   },
   data () {
     return {
@@ -70,7 +70,7 @@ Vue.component('com-area', {
 new Vue({
   template: `
 <div id="app">
-  <input type="text" @input="changeEvent"/>
+  <input type="text" @input="changeEvent" v-model="lixin.name"/>
   我来自{{from}}
   <button @click="clickEvent">点击事件</button>
   <ul class="ul">
@@ -80,29 +80,22 @@ new Vue({
 </div>`,
   data () {
     return {
-      from: '中国'
+      from: '中国',
+      lixin: {
+        name: '李鑫',
+        age: 26
+      }
     }
   },
   mounted () {
-    console.log(this)
+    // console.log(this)
   },
   methods: {
     changeEvent (e) {
-      console.log(e)
+      console.log(e.target.value)
     },
     clickEvent (e) {
       console.log(e)
     }
   }
 }).$mount('#app')
-
-// let str = `
-// <input type="text" class="input" 
-//   :class="['color', {active: true, disable: false}]" 
-//   placeholder="请输入" v-model="name" v-scroll="name"
-//   :style="{background: 'red'}" style="color: blue"
-//   @change="changeEvent()" @click="submit(name, index)" @input="inputEvent"
-//   v-if="choice === 1" 
-// />
-// `
-// console.log(query(str))

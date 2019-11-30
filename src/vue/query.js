@@ -45,11 +45,21 @@ function stringifyOptions (options) {
   onStr = `{${onStr}}`
   options.on = '$ON'
 
+  // 处理 v- 指令
+  let directiveStr = ''
+  options.directives.forEach((item, index) => {
+    let $v = `{"key":"${item.key}","value":${item.value}}`
+    directiveStr += `${index ? ',' : ''}${$v}`
+  })
+  directiveStr = `[${directiveStr}]`
+  options.directives = '$DIRECTIVE'
+
   // 处理其他事件
 
   // 汇总区域
   let optionsStr = JSON.stringify(options)
   optionsStr = optionsStr.replace('"$ON"', onStr)
+  optionsStr = optionsStr.replace('"$DIRECTIVE"', directiveStr)
   return optionsStr
 }
 

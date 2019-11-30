@@ -1,5 +1,7 @@
 import VueComponent from './vue-component'
+import Observer from './observer'
 import query from './query'
+import { _c } from './vue-util'
 import { proxyData } from './common'
 
 export default class Vue {
@@ -26,7 +28,7 @@ export default class Vue {
   }
 
   initData (data) {
-    this._data = data()
+    this._data = new Vue.Observer(data()).data
     Object.keys(this._data).forEach(key => {
       proxyData(this, key, 'data')
     })
@@ -58,6 +60,11 @@ export default class Vue {
         el.setAttribute('style', options[k])
       } else if (k === 'v-if') {
       } else if (k === 'directives') {
+        options[k].forEach(item => {
+          if (item.key === 'v-model') {
+            el.value = item.value
+          }
+        })
       } else if (k === 'on') {
         for (let onKey in options[k]) {
           let callback = options[k][onKey]
@@ -100,7 +107,9 @@ export default class Vue {
     return document.createComment(text)
   }
 
+  static Observer = Observer
   static VueComponent = VueComponent
+
 
   static components = {}
 
