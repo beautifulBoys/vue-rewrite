@@ -2,8 +2,7 @@
 import query from './query'
 // import { _c } from './vue-util'
 import { proxyData } from './common'
-
-export default class VueComponent {
+class VueComponent {
   $el = null
   $refs = {}
   constructor (options) {
@@ -104,6 +103,5 @@ export default class VueComponent {
   _e (text = '') {
     return document.createComment(text)
   }
-
 }
-// window.VueComponent = VueComponent
+export default VueComponent 
