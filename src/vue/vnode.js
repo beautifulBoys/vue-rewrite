@@ -1,14 +1,19 @@
 export default class Vnode {
-  $tag = ''
-  $options = null
-  $childrens = []
+  tag = ''
+  type = ''
+  options = null
+  childrens = []
   $el = null
-  $value = null
+  value = null
   constructor () {
 
   }
 
   createElement () {
+
+  }
+
+  setAttribute () {
 
   }
 }

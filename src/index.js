@@ -3,11 +3,11 @@ import './vue/vue'
 Vue.component('com-li', {
   template: `
 <li class="li" v-for="(item, index) in list" :key="index">
-  <com-div></com-div>
+  <com-div :data="item" title="中国陆军" @sub-event="subEvent"></com-div>
 </li>
 `,
   mounted () {
-    // console.log(this)
+    console.log(this)
   },
   data () {
     return {
@@ -23,15 +23,32 @@ Vue.component('com-li', {
         '解放军第九军'
       ]
     }
+  },
+  methods: {
+    subEvent (data) {
+      console.log(data)
+      this.list.push('解放军第十军')
+    }
   }
 })
 
 
 Vue.component('com-div', {
   template: `
-  <div class="item">我是第李鑫</div>
+  <div class="item" @click="event">{{title}}：{{data}}</div>
 `,
   mounted () {
+    // console.log(this)
+  },
+  data () {
+    return {
+    }
+  },
+  methods: {
+    event () {
+      console.log(this)
+      this.$emit('sub-event', this.data)
+    }
   }
 })
 

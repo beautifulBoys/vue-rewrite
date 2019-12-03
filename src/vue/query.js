@@ -1,5 +1,5 @@
 const parse5 = require('parse5')
-const { parseAttrs } = require('./attrs')
+const { parseAttrs, parseComponentAttrs } = require('./attrs')
 import { minifyHtml } from './util'
 
 // 把节点对象拆分为目标对象
@@ -9,7 +9,7 @@ function htmlParse (obj) {
     if (Vue.components[obj.tagName]) {
       item.type = 'component'
       item.tagName = obj.tagName
-      item.options = parseAttrs(obj.attrs)
+      item.options = parseComponentAttrs(obj.attrs)
     } else {
       item.type = 'node'
       item.tagName = obj.tagName
@@ -35,7 +35,7 @@ function toObject (source) {
   return htmlParse(obj)
 }
 
-function stringifyOptions (options) {
+function stringifyOptions (type, options) {
   // 处理 @ 监听事件
   let onStr = ''
   options.on.forEach((item, index) => {
@@ -54,18 +54,32 @@ function stringifyOptions (options) {
   directiveStr = `[${directiveStr}]`
   options.directives = '$DIRECTIVE'
 
+  // 处理 props 指令
+  let propsStr = ''
+  if (type === 'component') {
+    let index = 0
+    for (let k in options.props) {
+      let $v = `"${k.charAt(0) === ':' ? k.substr(1) : k}":${k.charAt(0) === ':' ? options.props[k] : JSON.stringify(options.props[k])}`
+      propsStr += `${index ? ',' : ''}${$v}`
+      index++
+    }
+    propsStr = `{${propsStr}}`
+    options.props = '$PROPS'
+  }
+
   // 处理其他事件
 
   // 汇总区域
   let optionsStr = JSON.stringify(options)
   optionsStr = optionsStr.replace('"$ON"', onStr)
   optionsStr = optionsStr.replace('"$DIRECTIVE"', directiveStr)
+  optionsStr = optionsStr.replace('"$PROPS"', propsStr)
   return optionsStr
 }
 
-function c ({tagName, options = {}, childrens = []}) {
-  options = stringifyOptions(options)
-  return `_c(${JSON.stringify(tagName)}, ${options}, [${children(childrens)}])`
+function c ({tagName, type, options = {}, childrens = []}) {
+  options = stringifyOptions(type, options)
+  return `_c(${JSON.stringify(tagName)}, ${JSON.stringify(type)}, ${options}, [${children(childrens)}])`
 }
 
 function t (text) {
