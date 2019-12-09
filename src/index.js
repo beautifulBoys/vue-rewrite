@@ -12,15 +12,15 @@ Vue.component('com-li', {
   data () {
     return {
       list: [
-        '解放军第一军',
-        '解放军第二军',
-        '解放军第三军',
-        '解放军第四军',
-        '解放军第五军',
-        '解放军第六军',
-        '解放军第七军',
-        '解放军第八军',
-        '解放军第九军'
+        '第一行',
+        '第二行',
+        '第三行',
+        '第四行',
+        '第五行',
+        '第六行',
+        '第七行',
+        '第八行',
+        '第九行'
       ]
     }
   },
@@ -35,7 +35,7 @@ Vue.component('com-li', {
 
 Vue.component('com-div', {
   template: `
-  <div class="item" @click="event">{{title}}：{{data}}</div>
+  <div class="item" @click="event">{{title}}:{{data}}</div>
 `,
   mounted () {
     // console.log(this)

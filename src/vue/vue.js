@@ -1,4 +1,5 @@
 import VueComponent from './vue-component'
+import Vnode from './vnode'
 import Observer from './observer'
 import query from './query'
 import { proxyData } from './common'
@@ -64,56 +65,21 @@ export default class Vue {
   _c (tagName, type, options = {}, children = []) {
     let el = null
     if (type === 'component' && Vue.components[tagName]) {
-        let props = {}
-        for (let k in options.props) {
-          props[k] = options.props[k]
-        }
-        el = new Vue.VueComponent({
-          ...Vue.components[tagName],
-          parent: this,
-          props,
-          on: options.on
-        }).$el
+      el = new Vue.VueComponent({
+        ...Vue.components[tagName],
+        parent: this,
+        props: options.props,
+        on: options.on
+      }).$el
     } else {
-      el = document.createElement(tagName)
-      for (let k in options) {
-        if (k === 'attrs') {
-          for (let j in options.attrs) {
-            el.setAttribute(j, options.attrs[j])
-          }
-        } else if (k === 'staticClass') {
-          el.setAttribute('class', options[k])
-        } else if (k === 'staticStyle') {
-          el.setAttribute('style', options[k])
-        } else if (k === 'v-if') {
-        } else if (k === 'directives') {
-          options[k].forEach(item => {
-            if (item.key === 'v-model') {
-              el.value = item.value
-            }
-          })
-        } else if (k === 'on') {
-          for (let onKey in options[k]) {
-            let callback = options[k][onKey]
-            el.addEventListener(onKey, callback)
-          }
-        } else if (k === 'ref') {
-          // this.setRefs(options[k], el)
-          this.$refs[options[k]] = el
-        } else {
-        }
-      }
-      for (let i = 0; i < children.length; i++) {
-        if (Array.isArray(children[i])) {
-          children[i].forEach(item => {
-            el.appendChild(item)
-          })
-        } else {
-          el.appendChild(children[i])
-        }
-      }
+      el = new Vue.Vnode({
+        type,
+        tagName,
+        options,
+        children,
+        parent: this
+      }).$el
     }
-    
     return el
   }
 
@@ -126,15 +92,24 @@ export default class Vue {
   }
 
   _t (text) {
-    return document.createTextNode(text)
+    return new Vue.Vnode({
+      type: 'text',
+      text,
+      parent: this
+    }).$el
   }
-  
+
   _e (text = '') {
-    return document.createComment(text)
+    return new Vue.Vnode({
+      type: 'comment',
+      text,
+      parent: this
+    }).$el
   }
 
   static Observer = Observer
   static VueComponent = VueComponent
+  static Vnode = Vnode
 
 
   static components = {}
