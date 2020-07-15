@@ -1,9 +1,9 @@
 console.time('vue')
-Vue.component('root-component', {
+Vue.component('com-root', {
 	template: '#root'
 })
 
-Vue.component('ise-ul-component', {
+Vue.component('com-ul', {
 	template: '#ise-ul',
 	data: function () {
 		return {
@@ -25,7 +25,7 @@ Vue.component('ise-ul-component', {
   }
 })
 
-Vue.component('ise-area-component', {
+Vue.component('com-area', {
 	template: '#ise-area',
 	data: function () {
 		return {

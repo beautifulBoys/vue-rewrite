@@ -15,8 +15,12 @@ const env = require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
   entry: {
-    vue: path.resolve(__dirname, '../src/vue.js'),
-    'vue-component': path.resolve(__dirname, '../src/vue-component.js')
+    'vue': path.resolve(__dirname, '../src/vue/index.js'),
+    'vue-component': path.resolve(__dirname, '../src/vue/vue-component.js')
+  },
+  output: {
+    path: path.resolve(__dirname, '../dist'),
+    filename: '[name].js'
   },
   module: {
     rules: utils.styleLoaders({
@@ -26,21 +30,17 @@ const webpackConfig = merge(baseWebpackConfig, {
     })
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
-  output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: '[name].js'
-  },
   plugins: [
     // keep module.id stable when vendor modules does not change
-    new webpack.HashedModuleIdsPlugin(),
+    // new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
-    new webpack.optimize.ModuleConcatenationPlugin(),
+    // new webpack.optimize.ModuleConcatenationPlugin(),
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity
-    })
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'manifest',
+    //   minChunks: Infinity
+    // })
   ]
 })
 

@@ -1,9 +1,9 @@
-import './vue/vue'
+import './vue'
 
 Vue.component('com-li', {
   template: `
 <li class="li" v-for="(item, index) in list" :key="index">
-  <com-div :data="item" title="中国陆军" @sub-event="subEvent"></com-div>
+  <com-child :data="item" title="中国陆军" @sub-event="subEvent"></com-child>
 </li>
 `,
   mounted () {
@@ -33,7 +33,7 @@ Vue.component('com-li', {
 })
 
 
-Vue.component('com-div', {
+Vue.component('com-child', {
   template: `
   <div class="item" @click="event">{{title}}:{{data}}</div>
 `,
@@ -55,11 +55,18 @@ Vue.component('com-div', {
 
 Vue.component('com-area', {
   template: `
-<input type="text" class="input" 
-  :class="['color', {active: true, disable: false}]" 
-  placeholder="请输入" v-model="name" v-scroll="name"
-  :style="{background: 'red'}" style="color: blue;outline: none"
-  @change="changeEvent()" @click="submit(name)" @input="inputEvent"
+<input
+  type="text"
+  class="input"
+  :class="['color', {active: true, disable: false}]"
+  placeholder="请输入"
+  v-model="name"
+  v-scroll="name"
+  :style="{background: 'red'}"
+  style="color:blue;outline:none"
+  @change="changeEvent()"
+  @click="submit(name)"
+  @input="inputEvent"
   v-if="choice === 1" 
 />
 `,
