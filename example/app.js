@@ -4,7 +4,7 @@ Vue.component('com-root', {
 })
 
 Vue.component('com-ul', {
-	template: '#ise-ul',
+	template: '#xin-ul',
 	data: function () {
 		return {
       list: [
@@ -26,7 +26,7 @@ Vue.component('com-ul', {
 })
 
 Vue.component('com-area', {
-	template: '#ise-area',
+	template: '#xin-area',
 	data: function () {
 		return {
       text: '我是李鑫'
