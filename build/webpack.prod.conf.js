@@ -15,8 +15,9 @@ const env = require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
   entry: {
-    'vue': path.resolve(__dirname, '../src/vue/index.js'),
-    'vue-component': path.resolve(__dirname, '../src/vue/vue-component.js')
+    'main': path.resolve(__dirname, '../src/main.js'),
+    // 'vue': path.resolve(__dirname, '../src/vue/index.js'),
+    // 'vue-component': path.resolve(__dirname, '../src/vue/vue-component.js')
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
@@ -41,6 +42,20 @@ const webpackConfig = merge(baseWebpackConfig, {
     //   name: 'manifest',
     //   minChunks: Infinity
     // })
+    // https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'index.html',
+      inject: true
+    }),
+    // copy custom static assets
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../static'),
+        to: config.dev.assetsSubDirectory,
+        ignore: ['.*']
+      }
+    ])
   ]
 })
 

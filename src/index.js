@@ -3,11 +3,11 @@ import './vue'
 Vue.component('com-li', {
   template: `
 <li class="li" v-for="(item, index) in list" :key="index">
-  <com-child :data="item" title="中国陆军" @sub-event="subEvent"></com-child>
+  <com-child :data="item" title="测试文本内容" @sub-event="subEvent"></com-child>
 </li>
 `,
   mounted () {
-    console.log(this)
+    // console.log(this)
   },
   data () {
     return {
@@ -26,8 +26,8 @@ Vue.component('com-li', {
   },
   methods: {
     subEvent (data) {
-      console.log(data)
-      this.list.push('解放军第十军')
+      this.list.push('新添加内容')
+      alert('点击事件一: ' + data)
     }
   }
 })
@@ -46,7 +46,7 @@ Vue.component('com-child', {
   },
   methods: {
     event () {
-      console.log(this)
+      // console.log(this)
       this.$emit('sub-event', this.data)
     }
   }
@@ -75,7 +75,7 @@ Vue.component('com-area', {
   },
   data () {
     return {
-      name: '我是谁'
+      name: '我是李鑫'
     }
   },
   methods: {
@@ -93,14 +93,20 @@ Vue.component('com-area', {
 
 new Vue({
   template: `
-<div id="app">
-  <input type="text" @input="changeEvent" v-model="lixin.name"/>
-  我来自{{from}}
-  <button @click="clickEvent">点击事件</button>
-  <ul class="ul">
-    <com-li></com-li>
-  </ul>
-  <com-area></com-area>
+<div id="app" style="display: flex;">
+  <div style="flex: 1; padding: 50px;">
+    <input type="text" @input="changeEvent" v-model="lixin.name"/>
+    <br /><br />
+    <span style="margin-right: 10px">我来自{{from}}</span>
+    <button @click="clickEvent">点击事件</button>
+    <ul class="ul">
+      <com-li></com-li>
+    </ul>
+    <com-area></com-area>
+  </div>
+  <div style="flex: 1;">
+    <img src="../static/images/code.png" style="width: 100%" />
+  </div>
 </div>`,
   data () {
     return {
@@ -120,6 +126,7 @@ new Vue({
     },
     clickEvent (e) {
       console.log(e)
+      alert('点击事件二')
     }
   }
 }).$mount('#app')
