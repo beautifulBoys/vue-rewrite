@@ -105,7 +105,7 @@ new Vue({
     <com-area></com-area>
   </div>
   <div style="flex: 1;">
-    <img src="../static/images/code.png" style="width: 100%" />
+    <img src="./static/images/code.png" style="width: 100%" />
   </div>
 </div>`,
   data () {
